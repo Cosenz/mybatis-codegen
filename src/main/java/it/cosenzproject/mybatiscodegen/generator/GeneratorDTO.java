@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -20,6 +21,7 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.TypeSpec.Builder;
 
 import it.cosenzproject.mybatiscodegen.model.Dto;
 import it.cosenzproject.mybatiscodegen.model.Property;
@@ -52,23 +54,37 @@ public class GeneratorDTO extends GeneratePojoClass {
 					dto.getProperty().addAll(getDTOProperties(s));
 				}
 			}
-		}
+			// create enum for different type select
+			// createTypeSearchEnum(dto.getPackageName(), mapper.getSelect());
 
-		dtos.stream().forEach(this::createDTO);
+		}
+		dtos.stream().forEach(dto -> createDTO(dto, mapper.getSelect()));
 		LOGGER.info(String.format(ApplicationConstants.LOG_END, "GeneratorDTO"));
 	}
 
-	private void createDTO(Dto dto) {
+	private TypeSpec createTypeSearchEnum(String packageName, List<Select> selects) {
+		LOGGER.info(String.format(ApplicationConstants.LOG_START, "createTypeSearchEnum"));
+		Builder searchTypeBuilder = TypeSpec.enumBuilder("TipoRicerca").addModifiers(Modifier.PUBLIC);
+		for (Select s : selects) {
+			searchTypeBuilder.addEnumConstant(StringUtils.substring(s.getId(), 0, 1).toUpperCase(Locale.ENGLISH)
+			        .concat(StringUtils.substring(s.getId(), 1, s.getId().length())));
+		}
+		LOGGER.info(String.format(ApplicationConstants.LOG_END, "createTypeSearchEnum"));
+		return searchTypeBuilder.build();
+	}
+
+	private void createDTO(Dto dto, List<Select> selects) {
 		LOGGER.info(String.format(ApplicationConstants.LOG_START, "createDTO"));
 		try {
 			Iterable<FieldSpec> fields = createFileds(dto.getProperty());
 			TypeSpec typeEntity = TypeSpec.classBuilder(dto.getName()).addModifiers(Modifier.PUBLIC).addFields(fields)
-			        .addMethods(createGetMethods(fields)).addMethods(createSetMethods(fields)).build();
+			        .addType(createTypeSearchEnum(dto.getPackageName(), selects)).addMethods(createGetMethods(fields))
+			        .addMethods(createSetMethods(fields)).build();
 
 			JavaFile javaFile = JavaFile.builder(dto.getPackageName(), typeEntity).build();
 			javaFile.writeTo(new File(ApplicationConstants.DAO));
 		} catch (IOException e) {
-			this.LOGGER.log(Level.SEVERE, e.getMessage());
+			this.LOGGER.log(Level.SEVERE, "" + e);
 		}
 		LOGGER.info(String.format(ApplicationConstants.LOG_END, "createDTO"));
 	}

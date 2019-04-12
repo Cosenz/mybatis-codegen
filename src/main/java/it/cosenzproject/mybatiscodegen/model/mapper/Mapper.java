@@ -13,81 +13,79 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Mapper {
 
-    @XmlElement(name = "select")
-    private List<Select> select;
-    @XmlElement(name = "insert")
-    private List<Insert> insert;
-    @XmlElement(name = "update")
-    private List<Update> update;
-    @XmlElement(name = "resultMap")
-    private List<ResultMap> resultMap;
-    @XmlAttribute(name = "namespace")
-    private String namespace;
+	@XmlElement(name = "select")
+	private List<Select> select;
+	@XmlElement(name = "insert")
+	private List<Insert> insert;
+	@XmlElement(name = "update")
+	private List<Update> update;
+	@XmlElement(name = "resultMap")
+	private List<ResultMap> resultMap;
+	@XmlAttribute(name = "namespace")
+	private String namespace;
 
-    public List<Select> getSelect() {
-        if (this.select == null) {
-            return new ArrayList<>();
-        }
-        return this.select;
-    }
+	public List<Select> getSelect() {
+		if (this.select == null) {
+			this.select = new ArrayList<>();
+		}
+		return this.select;
+	}
 
-    public void setSelect(List<Select> select) {
-        this.select = select;
-    }
+	public void setSelect(List<Select> select) {
+		this.select = select;
+	}
 
-    /**
-     * @return the update
-     */
-    public List<Update> getUpdate() {
-        if (this.update == null) {
-            return new ArrayList<>();
-        }
-        return this.update;
-    }
+	/**
+	 * @return the update
+	 */
+	public List<Update> getUpdate() {
+		if (this.update == null) {
+			this.update = new ArrayList<>();
+		}
+		return this.update;
+	}
 
-    /**
-     * @param update
-     *            the update to set
-     */
-    public void setUpdate(List<Update> update) {
-        this.update = update;
-    }
+	/**
+	 * @param update the update to set
+	 */
+	public void setUpdate(List<Update> update) {
+		this.update = update;
+	}
 
-    /**
-     * @return the insert
-     */
-    public List<Insert> getInsert() {
-        if (this.insert == null) {
-            return new ArrayList<>();
-        }
-        return this.insert;
-    }
+	/**
+	 * @return the insert
+	 */
+	public List<Insert> getInsert() {
+		if (this.insert == null) {
+			this.insert = new ArrayList<>();
+		}
+		return this.insert;
+	}
 
-    /**
-     * @param insert
-     *            the insert to set
-     */
-    public void setInsert(List<Insert> insert) {
-        this.insert = insert;
-    }
+	/**
+	 * @param insert the insert to set
+	 */
+	public void setInsert(List<Insert> insert) {
+		this.insert = insert;
+	}
 
-    public List<ResultMap> getResultMap() {
-        if (this.resultMap == null) {
-            return new ArrayList<>();
-        }
-        return this.resultMap;
-    }
+	public List<ResultMap> getResultMap() {
+		if (this.resultMap == null) {
+			return new ArrayList<>();
+		}
+		return this.resultMap;
+	}
 
-    public void setResultMap(List<ResultMap> resultMap) {
-        this.resultMap = resultMap;
-    }
+	public void setResultMap(List<ResultMap> resultMap) {
+		this.resultMap = resultMap;
+	}
 
-    public String getNamespace() {
-        return this.namespace;
-    }
+	public String getNamespace() {
+		return this.namespace;
+	}
 
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
-    }
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
 
 }
