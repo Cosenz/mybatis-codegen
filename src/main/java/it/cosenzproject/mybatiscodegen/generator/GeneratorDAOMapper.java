@@ -112,10 +112,10 @@ public class GeneratorDAOMapper implements Generator {
 		if (s.getResultType() != null) {
 			method.setResult(new ResultMethod(s.getResultType(), "java.lang.".concat(s.getResultType())));
 		} else {
-			for (ResultMap resultMap : mapper.getResultMap()) {
-				method.setResult(new ResultMethod(FieldUtil.getClassName(resultMap.getType()),
-				        FieldUtil.getPackageName(resultMap.getType())));
-			}
+			ResultMap resultMap = mapper.getResultMap().stream()
+			        .filter(result -> result.getId().equals(s.getResultMap())).findFirst().orElse(null);
+			method.setResult(new ResultMethod(FieldUtil.getClassName(resultMap.getType()),
+			        FieldUtil.getPackageName(resultMap.getType())));
 		}
 		return method;
 	}
