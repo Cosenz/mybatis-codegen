@@ -68,27 +68,25 @@ public class GeneratorEntity extends GeneratePojoClass {
 			Entity entity = new Entity();
 			entity.setPackageName(FieldUtil.getPackageName(resultMap.getType()));
 			entity.setName(FieldUtil.getClassName(resultMap.getType()));
-			entity.setProperty(getEntityProperties(mapper, resultMap.getType()));
+			entity.setProperty(getEntityProperties(mapper, resultMap));
 			entities.add(entity);
 		}
 		return entities;
 	}
 
-	private List<Property> getEntityProperties(Mapper mapper, String resultType) {
+	private List<Property> getEntityProperties(Mapper mapper, ResultMap resultMap) {
 		List<Property> properties = new ArrayList<>();
-		for (ResultMap result : mapper.getResultMap()) {
-			for (Id id : result.getIds()) {
-				Property p = new Property();
-				p.setName(id.getProperty());
-				p.setType(getPropertyType(id.getProperty(), resultType, mapper));
-				properties.add(p);
-			}
-			for (Result r : result.getResult()) {
-				Property p = new Property();
-				p.setName(r.getProperty());
-				p.setType(getPropertyType(r.getProperty(), resultType, mapper));
-				properties.add(p);
-			}
+		for (Id id : resultMap.getIds()) {
+			Property p = new Property();
+			p.setName(id.getProperty());
+			p.setType(getPropertyType(id.getProperty(), resultMap.getType(), mapper));
+			properties.add(p);
+		}
+		for (Result r : resultMap.getResult()) {
+			Property p = new Property();
+			p.setName(r.getProperty());
+			p.setType(getPropertyType(r.getProperty(), resultMap.getType(), mapper));
+			properties.add(p);
 		}
 		return properties;
 	}
