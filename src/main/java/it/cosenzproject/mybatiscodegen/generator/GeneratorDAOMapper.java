@@ -32,7 +32,7 @@ import it.cosenzproject.mybatiscodegen.util.FieldUtil;
 
 public class GeneratorDAOMapper implements Generator {
 
-	private final Logger LOGGER = Logger.getLogger(GeneratorDAOMapper.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(GeneratorDAOMapper.class.getName());
 
 	@Override
 	public void generate(Mapper mapper) {
@@ -51,7 +51,7 @@ public class GeneratorDAOMapper implements Generator {
 		try {
 			javaFile.writeTo(new File(ApplicationConstants.DAO));
 		} catch (IOException e) {
-			this.LOGGER.log(Level.SEVERE, e.getMessage());
+			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
 	}
 

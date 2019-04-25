@@ -32,7 +32,7 @@ import it.cosenzproject.mybatiscodegen.util.FieldUtil;
 
 public class GeneratorDTO extends GeneratePojoClass {
 
-	private final Logger LOGGER = Logger.getLogger(GeneratorDTO.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(GeneratorDTO.class.getName());
 
 	@Override
 	public void generate(Mapper mapper) {
@@ -54,9 +54,6 @@ public class GeneratorDTO extends GeneratePojoClass {
 					dto.getProperty().addAll(getDTOProperties(s));
 				}
 			}
-			// create enum for different type select
-			// createTypeSearchEnum(dto.getPackageName(), mapper.getSelect());
-
 		}
 		dtos.stream().forEach(dto -> createDTO(dto, mapper.getSelect()));
 		LOGGER.info(String.format(ApplicationConstants.LOG_END, "GeneratorDTO"));
@@ -84,7 +81,7 @@ public class GeneratorDTO extends GeneratePojoClass {
 			JavaFile javaFile = JavaFile.builder(dto.getPackageName(), typeEntity).build();
 			javaFile.writeTo(new File(ApplicationConstants.DAO));
 		} catch (IOException e) {
-			this.LOGGER.log(Level.SEVERE, "" + e);
+			LOGGER.log(Level.SEVERE, "" + e);
 		}
 		LOGGER.info(String.format(ApplicationConstants.LOG_END, "createDTO"));
 	}
