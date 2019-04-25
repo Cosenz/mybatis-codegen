@@ -1,5 +1,7 @@
 package it.cosenzproject.mybatiscodegen;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,6 +12,7 @@ import it.cosenzproject.mybatiscodegen.generator.GeneratorDTO;
 import it.cosenzproject.mybatiscodegen.generator.GeneratorEntity;
 import it.cosenzproject.mybatiscodegen.model.mapper.Mapper;
 import it.cosenzproject.mybatiscodegen.parser.XmlMapperParser;
+import it.cosenzproject.mybatiscodegen.util.ApplicationConstants;
 
 /**
  * Start DAO class from mybatis xml mapper
@@ -33,6 +36,9 @@ public class App {
 				// Write Entity class
 				GeneratorEntity generatorEntity = new GeneratorEntity();
 				generatorEntity.generate(mapper);
+				LOGGER.info("DAO class is create, look into dao folder");
+				// Open folder
+				Desktop.getDesktop().open(new File(ApplicationConstants.DAO));
 			} else {
 				LOGGER.log(Level.SEVERE, "inputFile is required");
 			}
