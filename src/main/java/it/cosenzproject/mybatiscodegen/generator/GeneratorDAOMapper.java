@@ -30,6 +30,12 @@ import it.cosenzproject.mybatiscodegen.model.mapper.Update;
 import it.cosenzproject.mybatiscodegen.util.ApplicationConstants;
 import it.cosenzproject.mybatiscodegen.util.FieldUtil;
 
+/**
+ * Generate DAO interface
+ * 
+ * @author Cosenz
+ *
+ */
 public class GeneratorDAOMapper implements Generator {
 
 	private static final Logger LOGGER = Logger.getLogger(GeneratorDAOMapper.class.getName());

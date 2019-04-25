@@ -27,6 +27,12 @@ import it.cosenzproject.mybatiscodegen.model.mapper.Update;
 import it.cosenzproject.mybatiscodegen.util.ApplicationConstants;
 import it.cosenzproject.mybatiscodegen.util.FieldUtil;
 
+/**
+ * Generate entity class
+ * 
+ * @author Cosenz
+ *
+ */
 public class GeneratorEntity extends GeneratePojoClass {
 
 	private static final Logger LOGGER = Logger.getLogger(GeneratorEntity.class.getName());

@@ -11,8 +11,22 @@ import javax.xml.transform.stream.StreamSource;
 
 import it.cosenzproject.mybatiscodegen.model.mapper.Mapper;
 
+/**
+ * This class parse xml mapper
+ * 
+ * @author Cosenz
+ *
+ */
 public class XmlMapperParser {
 
+	/**
+	 * 
+	 * @param filePath
+	 * @return Mapper
+	 * @throws JAXBException
+	 * @throws FactoryConfigurationError
+	 * @throws XMLStreamException
+	 */
 	public static Mapper readMapper(String filePath)
 	        throws JAXBException, FactoryConfigurationError, XMLStreamException {
 		JAXBContext jaxbContext;

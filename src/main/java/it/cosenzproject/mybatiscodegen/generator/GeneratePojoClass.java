@@ -12,8 +12,20 @@ import com.squareup.javapoet.MethodSpec;
 
 import it.cosenzproject.mybatiscodegen.util.ApplicationConstants;
 
+/**
+ * The GeneratePojoClass
+ * 
+ * @author Cosenz
+ *
+ */
 public abstract class GeneratePojoClass implements Generator {
 
+	/**
+	 * Create get methods
+	 * 
+	 * @param fields
+	 * @return
+	 */
 	protected Iterable<MethodSpec> createGetMethods(Iterable<FieldSpec> fields) {
 		List<MethodSpec> methods = new ArrayList<>();
 		for (FieldSpec field : fields) {
@@ -26,6 +38,12 @@ public abstract class GeneratePojoClass implements Generator {
 		return methods;
 	}
 
+	/**
+	 * Create set methods
+	 * 
+	 * @param fields
+	 * @return
+	 */
 	protected Iterable<MethodSpec> createSetMethods(Iterable<FieldSpec> fields) {
 		List<MethodSpec> methods = new ArrayList<>();
 		for (FieldSpec field : fields) {
@@ -39,6 +57,13 @@ public abstract class GeneratePojoClass implements Generator {
 		return methods;
 	}
 
+	/**
+	 * Search object property in query or store procedure
+	 * 
+	 * @param property
+	 * @param body
+	 * @return
+	 */
 	protected String searchProperty(String property, String body) {
 		String type = String.class.getName();
 		String[] textSplit = StringUtils.split(StringUtils.trim(body), "#");
@@ -51,6 +76,12 @@ public abstract class GeneratePojoClass implements Generator {
 		return type;
 	}
 
+	/**
+	 * Get type of property
+	 * 
+	 * @param line
+	 * @return
+	 */
 	protected String findTypeProperty(String line) {
 		int typeIndex = line.indexOf(ApplicationConstants.JAVA_TYPE);
 		if (typeIndex > -1) {

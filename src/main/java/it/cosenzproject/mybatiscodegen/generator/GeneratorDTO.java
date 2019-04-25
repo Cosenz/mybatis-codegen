@@ -30,6 +30,12 @@ import it.cosenzproject.mybatiscodegen.model.mapper.Select;
 import it.cosenzproject.mybatiscodegen.util.ApplicationConstants;
 import it.cosenzproject.mybatiscodegen.util.FieldUtil;
 
+/**
+ * Generate DTO class
+ * 
+ * @author Cosenz
+ *
+ */
 public class GeneratorDTO extends GeneratePojoClass {
 
 	private static final Logger LOGGER = Logger.getLogger(GeneratorDTO.class.getName());
