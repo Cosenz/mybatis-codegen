@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="it.javatutorial.mybatiscodegen.persistance.dao.ContrattoDAOMapper">
+	<resultMap id="contrattoMap"
+		type="it.javatutorial.mybatiscodegen.persistance.entity.Contratto">
+		<id property="progContratto" column="prog_contratto" />
+		<result property="codCompagnia" column="cod_compagnia" />
+		<result property="codAgenzia" column="cod_agenzia" />
+		<result property="codSubagenzia" column="cod_subagenzia" />
+		<result property="codProdotto" column="cod_prodotto" />
+		<result property="codCategoria" column="cod_categoria" />
+		<result property="codStatoContratto" column="cod_stato_contratto" />
+		<result property="dataEmissione" column="data_emissione" />
+		<result property="dataOraDecorrenza" column="data_ora_decorrenza" />
+		<result property="dataOraScadenza" column="data_ora_scadenza" />
+		<result property="premioNetto" column="premio_netto" />
+		<result property="premioTotale" column="premio_tot" />
+	</resultMap>
+
+
+	<insert id="insertContratto"
+		parameterType="it.javatutorial.mybatiscodegen.persistance.entity.Contratto"
+		statementType="CALLABLE">
+		{CALL dbo.InsertContratto (
+			#{contratto.progContratto,javaType=String,jdbcType=CHAR,mode=IN},
+			#{contratto.codCompagnia,javaType=it.javatutorial.mybatiscodegen.model.enums.CodCompagnia,jdbcType=CHAR,mode=IN},
+			#{contratto.codAgenzia,javaType=String,jdbcType=CHAR,mode=IN},
+			#{contratto.codSubagenzia,javaType=String,jdbcType=CHAR,mode=IN},
+			#{contratto.codProdotto,javaType=it.javatutorial.mybatiscodegen.model.enums.CodProdotto,jdbcType=INTEGER,mode=IN},
+			#{contratto.codCategoria,javaType=String,jdbcType=CHAR,mode=IN},
+			#{contratto.codStatoContratto,javaType=it.javatutorial.mybatiscodegen.model.enums.CodStatoContratto,jdbcType=CHAR,mode=IN},
+			#{contratto.dataEmissione,javaType=java.sql.Timestamp,jdbcType=TIMESTAMP,mode=IN},
+			#{contratto.dataOraDecorrenza,javaType=java.sql.Timestamp,jdbcType=TIMESTAMP,mode=IN},
+			#{contratto.dataOraScadenza,javaType=java.sql.Timestamp,jdbcType=TIMESTAMP,mode=IN},
+			#{contratto.premioNetto,javaType=java.math.BigDecimal,jdbcType=NUMERIC,mode=IN},
+			#{contratto.premioTotale,javaType=java.math.BigDecimal,jdbcType=NUMERIC,mode=IN},
+			#{contratto.premioTotFirma,javaType=java.math.BigDecimal,jdbcType=NUMERIC,mode=IN}
+		)}
+	</insert>
+	
+	<update id="update" statementType="CALLABLE"
+		parameterType="it.javatutorial.mybatiscodegen.persistance.entity.Contratto"	>		
+		{CALL dbo.UpdateContratto(
+			#{contratto.codCompagnia,javaType=it.javatutorial.mybatiscodegen.model.enums.CodCompagnia,jdbcType=CHAR,mode=IN},
+			#{contratto.codAgenzia,javaType=String,jdbcType=CHAR,mode=IN},
+			#{contratto.codSubagenzia,javaType=String,jdbcType=CHAR,mode=IN},
+			#{contratto.codProdotto,javaType=it.javatutorial.mybatiscodegen.model.enums.CodProdotto,jdbcType=INTEGER,mode=IN},
+			#{contratto.codCategoria,javaType=String,jdbcType=CHAR,mode=IN},
+			#{contratto.codStatoContratto,javaType=it.javatutorial.mybatiscodegen.model.enums.CodStatoContratto,jdbcType=CHAR,mode=IN},
+			#{contratto.dataEmissione,javaType=java.sql.Timestamp,jdbcType=TIMESTAMP,mode=IN},
+			#{contratto.dataOraDecorrenza,javaType=java.sql.Timestamp,jdbcType=TIMESTAMP,mode=IN},
+			#{contratto.dataOraScadenza,javaType=java.sql.Timestamp,jdbcType=TIMESTAMP,mode=IN},
+			#{contratto.premioNetto,javaType=java.math.BigDecimal,jdbcType=NUMERIC,mode=IN},
+			#{contratto.premioTotale,javaType=java.math.BigDecimal,jdbcType=NUMERIC,mode=IN},
+			#{contratto.premioTotFirma,javaType=java.math.BigDecimal,jdbcType=NUMERIC,mode=IN}
+		)}				
+	</update>	
+
+	<delete id="delete">
+		DELETE
+		CONTRATTO
+		WHERE
+		PROG_CONTRATTOO =
+		#{contrattoDTO.progContratto,javaType=String,jdbcType=CHAR,mode=IN}
+	</delete>
+
+	<select id="readByProgContratto" resultMap="contrattoMap"
+		parameterType="it.javatutorial.mybatiscodegen.persistance.dto.ContrattoDTO">
+		SELECT
+		*
+		FROM CONTRATTO
+		with (nolock)
+		WHERE prog_contratto between
+		#{contrattoDTO.progressivo,javaType=String,jdbcType=CHAR,mode=IN}
+		and
+		#{contrattoDTO.progressivo2,javaType=String,jdbcType=CHAR,mode=IN}
+	</select>
+
+	<select id="readByProgConsigliere" statementType="CALLABLE"
+		resultMap="contrattoMap"
+		parameterType="it.javatutorial.mybatiscodegen.persistance.dto.ContrattoDTO">
+		{CALL dbo.ExtractContrattoFromCodConsigliere (
+		#{contrattoDTO.progConsigliere,javaType=Integer,jdbcType=NUMERIC,mode=IN})
+		}
+	</select>
+
+
+	<select id="readByProgContrAssoluto" resultMap="contrattoMap"
+		parameterType="it.javatutorial.mybatiscodegen.persistance.dto.ContrattoDTO"
+		statementType="CALLABLE">
+		{CALL dbo.DatiContrattoProg (
+		#{contrattoDTO.progContrAssoluto,javaType=Integer,jdbcType=NUMERIC,mode=IN}
+		)}
+	</select>
+
+
+	<select id="readDatiContratto" resultMap="contrattoMap"
+		parameterType="it.javatutorial.mybatiscodegen.persistance.dto.ContrattoDTO"
+		statementType="CALLABLE">
+		{CALL dbo.DatiContratto (
+		#{contrattoDTO.progContratto,javaType=String,jdbcType=CHAR,mode=IN},
+		#{contrattoDTO.codCompagnia,javaType=it.javatutorial.mybatiscodegen.model.enums.CodCompagnia,jdbcType=CHAR,mode=IN}
+		)}
+	</select>
+
+
+	<select id="readProgContrAssoluto" resultType="Long">
+		{CALL
+		dbo.EstraiProgContrAssoluto ()
+		}
+	</select>
+
+	<select id="readByChiaveOggetto" resultMap="contrattoMap" statementType="CALLABLE" parameterType="it.javatutorial.mybatiscodegen.persistance.dto.ContrattoDTO">
+		select distinct c.* from contratto c (nolock)
+		inner join garanzia g (nolock) on c.prog_contr_assoluto = g.prog_contr_assoluto
+		inner join oggetto o (nolock) on g.prog_oggetto = o.PROG_OGGETTO 
+		inner join VEICOLO v (nolock) on v.chiave_oggetto = o.chiave_oggetto 
+		where v.chiave_oggetto =  #{contrattoDTO.chiaveOggetto,javaType=Integer,jdbcType=INTEGER,mode=IN}
+	</select>
+</mapper>
