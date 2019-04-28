@@ -10,5 +10,5 @@ import it.cosenzproject.mybatiscodegen.model.mapper.Mapper;
  */
 public interface Generator {
 
-	abstract void generate(Mapper mapper);
+	void generate(Mapper mapper);
 }
