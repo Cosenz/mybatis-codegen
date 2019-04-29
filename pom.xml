@@ -15,8 +15,7 @@
   	<commons-io.version>2.6</commons-io.version>
   	<commons-lang3.version>3.8.1</commons-lang3.version>
   	<mybatis.version>3.4.6</mybatis.version>
-  	<jaxb-api.version>2.3.0</jaxb-api.version>
-  	
+  	  	
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<maven.compiler.source>1.8</maven.compiler.source>
 	<maven.compiler.target>1.8</maven.compiler.target>
@@ -50,13 +49,6 @@
 	    <artifactId>javapoet</artifactId>
 	    <version>${javapoet.version}</version>
 	</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
-	<dependency>
-	    <groupId>javax.xml.bind</groupId>
-	    <artifactId>jaxb-api</artifactId>
-	    <version>${jaxb-api.version}</version>
-	</dependency>
     
   </dependencies>
   
@@ -71,6 +63,22 @@
 		        <target>${maven.compiler.target}</target>
 		    </configuration>
 		</plugin>
+		<plugin>
+        	<groupId>it.cosenzproject.plugin</groupId>
+        	<artifactId>custom-mavenplugin</artifactId>
+        	<version>1.0.0-SNAPSHOT</version>
+        	<configuration>
+    			<inputFile>C:/Users/Cosenz/Desktop/a/mapper/ContrattoMapper.xml</inputFile>
+  			</configuration>
+	        <executions>
+	          <execution>
+	            <phase>generate-sources</phase>
+	            <goals>
+	              <goal>custom-mavenplugin</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+      	</plugin>
 	  </plugins>
   </build>
    
