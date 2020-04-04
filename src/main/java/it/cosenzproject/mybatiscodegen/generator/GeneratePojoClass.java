@@ -1,7 +1,10 @@
 package it.cosenzproject.mybatiscodegen.generator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.lang.model.element.Modifier;
 
@@ -9,8 +12,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeSpec;
 
+import it.cosenzproject.mybatiscodegen.model.DAOBase;
 import it.cosenzproject.mybatiscodegen.util.ApplicationConstants;
+import it.cosenzproject.mybatiscodegen.util.FileUtil;
 
 /**
  * The GeneratePojoClass
@@ -20,6 +26,8 @@ import it.cosenzproject.mybatiscodegen.util.ApplicationConstants;
  */
 public abstract class GeneratePojoClass implements Generator {
 
+	private static final Logger LOGGER = Logger.getLogger(GeneratePojoClass.class.getName());
+
 	/**
 	 * Create get methods
 	 * 
@@ -27,6 +35,7 @@ public abstract class GeneratePojoClass implements Generator {
 	 * @return
 	 */
 	protected Iterable<MethodSpec> createGetMethods(Iterable<FieldSpec> fields) {
+
 		List<MethodSpec> methods = new ArrayList<>();
 		for (FieldSpec field : fields) {
 			methods.add(MethodSpec
@@ -89,5 +98,13 @@ public abstract class GeneratePojoClass implements Generator {
 			        line.indexOf(',', typeIndex));
 		}
 		return "";
+	}
+
+	protected void writeFile(DAOBase dao, TypeSpec typeObject) {
+		try {
+			FileUtil.generateFile(dao, typeObject);
+		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, "" + e);
+		}
 	}
 }

@@ -1,10 +1,7 @@
 package it.cosenzproject.mybatiscodegen.generator;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.lang.model.element.Modifier;
@@ -13,7 +10,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
@@ -36,7 +32,7 @@ import it.cosenzproject.mybatiscodegen.util.FieldUtil;
  * @author Cosenz
  *
  */
-public class GeneratorDAOMapper implements Generator {
+public class GeneratorDAOMapper extends GeneratePojoClass implements Generator {
 
 	private static final Logger LOGGER = Logger.getLogger(GeneratorDAOMapper.class.getName());
 
@@ -53,12 +49,7 @@ public class GeneratorDAOMapper implements Generator {
 		TypeSpec daoTypeSpec = TypeSpec.interfaceBuilder(daoMapper.getName()).addModifiers(Modifier.PUBLIC)
 		        .addMethods(methods).build();
 
-		JavaFile javaFile = JavaFile.builder(daoMapper.getPackageName(), daoTypeSpec).build();
-		try {
-			javaFile.writeTo(new File(ApplicationConstants.DAO));
-		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, e.getMessage());
-		}
+		writeFile(daoMapper, daoTypeSpec);
 	}
 
 	private Iterable<MethodSpec> createMethods(List<Method> methods) {

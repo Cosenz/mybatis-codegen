@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 
 import it.cosenzproject.mybatiscodegen.generator.GeneratorDAOMapper;
+import it.cosenzproject.mybatiscodegen.generator.GeneratorDAOProvider;
 import it.cosenzproject.mybatiscodegen.generator.GeneratorDTO;
 import it.cosenzproject.mybatiscodegen.generator.GeneratorEntity;
 import it.cosenzproject.mybatiscodegen.model.mapper.Mapper;
@@ -36,6 +37,9 @@ public class App {
 				// Write Entity class
 				GeneratorEntity generatorEntity = new GeneratorEntity();
 				generatorEntity.generate(mapper);
+				// Write DAO Implementation
+				GeneratorDAOProvider daoProvider = new GeneratorDAOProvider();
+				daoProvider.generate(mapper);
 				LOGGER.info("DAO class is create, look into dao folder");
 				// Open folder
 				Desktop.getDesktop().open(new File(ApplicationConstants.DAO));

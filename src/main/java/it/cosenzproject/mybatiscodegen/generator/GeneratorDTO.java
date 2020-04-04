@@ -1,7 +1,5 @@
 package it.cosenzproject.mybatiscodegen.generator;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -9,7 +7,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -19,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
 
@@ -78,17 +74,11 @@ public class GeneratorDTO extends GeneratePojoClass {
 
 	private void createDTO(Dto dto, List<Select> selects) {
 		LOGGER.info(String.format(ApplicationConstants.LOG_START, "createDTO"));
-		try {
-			Iterable<FieldSpec> fields = createFileds(dto.getProperty());
-			TypeSpec typeEntity = TypeSpec.classBuilder(dto.getName()).addModifiers(Modifier.PUBLIC).addFields(fields)
-			        .addType(createTypeSearchEnum(dto.getPackageName(), selects)).addMethods(createGetMethods(fields))
-			        .addMethods(createSetMethods(fields)).build();
-
-			JavaFile javaFile = JavaFile.builder(dto.getPackageName(), typeEntity).build();
-			javaFile.writeTo(new File(ApplicationConstants.DAO));
-		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, "" + e);
-		}
+		Iterable<FieldSpec> fields = createFileds(dto.getProperty());
+		TypeSpec typeEntity = TypeSpec.classBuilder(dto.getName()).addModifiers(Modifier.PUBLIC).addFields(fields)
+		        .addType(createTypeSearchEnum(dto.getPackageName(), selects)).addMethods(createGetMethods(fields))
+		        .addMethods(createSetMethods(fields)).build();
+		writeFile(dto, typeEntity);
 		LOGGER.info(String.format(ApplicationConstants.LOG_END, "createDTO"));
 	}
 

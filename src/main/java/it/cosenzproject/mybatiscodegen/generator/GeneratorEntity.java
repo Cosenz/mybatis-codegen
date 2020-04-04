@@ -1,10 +1,7 @@
 package it.cosenzproject.mybatiscodegen.generator;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.lang.model.element.Modifier;
@@ -13,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 
 import it.cosenzproject.mybatiscodegen.model.Entity;
@@ -50,12 +46,7 @@ public class GeneratorEntity extends GeneratePojoClass {
 		TypeSpec typeEntity = TypeSpec.classBuilder(entity.getName()).addModifiers(Modifier.PUBLIC).addFields(fields)
 		        .addMethods(createGetMethods(fields)).addMethods(createSetMethods(fields)).build();
 
-		JavaFile javaFile = JavaFile.builder(entity.getPackageName(), typeEntity).build();
-		try {
-			javaFile.writeTo(new File(ApplicationConstants.DAO));
-		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, e.getMessage());
-		}
+		writeFile(entity, typeEntity);
 		LOGGER.info(String.format(ApplicationConstants.LOG_END, "createEntity"));
 	}
 
