@@ -12,7 +12,7 @@
 
   <properties>
   	<javapoet.version>1.9.0</javapoet.version>
-  	<commons-io.version>2.6</commons-io.version>
+  	<commons-io.version>2.7</commons-io.version>
   	<commons-lang3.version>3.8.1</commons-lang3.version>
   	<mybatis.version>3.4.6</mybatis.version>
   	
